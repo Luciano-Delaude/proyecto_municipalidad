@@ -1,0 +1,39 @@
+CREATE TABLE municipalidades ( 
+    id_municipalidad INT NOT NULL,
+    n_provincia INT NOT NULL,
+	nombre VARCHAR(100),
+	n_empleados INT,
+	PRIMARY KEY (id_municipalidad,n_provincia)
+);
+
+CREATE TABLE empleados (
+	dni INT NOT NULL,
+    n_tarjeta INT,
+    pin_tarjeta SMALLINT,
+    nombre VARCHAR(100),
+    saldo REAL UNSIGNED,
+    id_municipalidad INT,
+    PRIMARY KEY (dni),
+    FOREIGN KEY (id_municipalidad) REFERENCES municipalidades(id_municipalidad)
+);
+
+CREATE TABLE proveedores (
+	id_proveedor INT NOT NULL,
+    id_municipalidad INT NOT NULL,
+    nombre VARCHAR(100),
+    direccion VARCHAR(100),
+    categoria SMALLINT, #tinyint?
+    PRIMARY KEY (id_proveedor, id_municipalidad),
+    FOREIGN KEY (id_municipalidad) REFERENCES municipalidades(id_municipalidad)
+);
+
+CREATE TABLE transacciones (
+	n_tarjeta INT,
+    id_proveedor INT,
+    n_transaccion INT NOT NULL,
+    monto REAL UNSIGNED,
+    fecha DATE,
+    PRIMARY KEY (n_transaccion),
+    FOREIGN KEY (n_tarjeta) REFERENCES empleados(n_tarjeta),
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor)
+)
