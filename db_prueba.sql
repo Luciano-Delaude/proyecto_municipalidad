@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `empleados` (
   `dni` int(11) DEFAULT NULL,
-  `n_tarjeta` int(11) NOT NULL,
+  `n_tarjeta` varchar(16) NOT NULL,
   `pin_tarjeta` smallint(6) DEFAULT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `saldo` double UNSIGNED DEFAULT NULL,
@@ -42,9 +42,9 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`dni`, `n_tarjeta`, `pin_tarjeta`, `nombre`, `saldo`, `id_municipalidad`) VALUES
-(38917478, 1, 123, 'ElSantiPiola', 50, 1),
-(38297408, 2, 121, 'ElLuchin', 50, 1),
-(35796172, 3, 120, 'Leox', 51, 1);
+(38917478, "1", 123, 'ElSantiPiola', 50, 1),
+(38297408, "2001013538297408", 121, 'ElLuchin', 50, 1),
+(35796172, "3", 120, 'Leox', 51, 1);
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ INSERT INTO `proveedores` (`id_proveedor`, `id_municipalidad`, `nombre`, `direcc
 --
 
 CREATE TABLE `transacciones` (
-  `n_tarjeta` int(11) DEFAULT NULL,
+  `n_tarjeta` varchar(16) DEFAULT NULL,
   `id_proveedor` int(11) DEFAULT NULL,
   `n_transaccion` int(11) NOT NULL,
   `monto` double UNSIGNED DEFAULT NULL,
@@ -106,12 +106,12 @@ CREATE TABLE `transacciones` (
 --
 
 INSERT INTO `transacciones` (`n_tarjeta`, `id_proveedor`, `n_transaccion`, `monto`, `fecha`) VALUES
-(1, 1, 1, 1, '2019-11-22'),
-(2, 1, 2, 2, '2019-11-27'),
-(3, 1, 3, 3, '2019-11-25'),
-(1, 1, 4, 1, '2019-11-23'),
-(2, 1, 5, 2, '2019-11-20'),
-(3, 1, 6, 3, '2019-11-23');
+("1", 1, 1, 1, '2019-11-22'),
+("2", 1, 2, 2, '2019-11-27'),
+("3", 1, 3, 3, '2019-11-25'),
+("1", 1, 4, 1, '2019-11-23'),
+("2", 1, 5, 2, '2019-11-20'),
+("3", 1, 6, 3, '2019-11-23');
 
 --
 -- Índices para tablas volcadas
