@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2019 a las 19:17:32
--- Versión del servidor: 10.4.8-MariaDB
--- Versión de PHP: 7.3.11
+-- Tiempo de generación: 24-01-2020 a las 13:42:03
+-- Versión del servidor: 10.4.11-MariaDB
+-- Versión de PHP: 7.2.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `proyecto`
+-- Base de datos: `proyecto_muni`
 --
 
 -- --------------------------------------------------------
@@ -42,9 +42,12 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`dni`, `n_tarjeta`, `pin_tarjeta`, `nombre`, `saldo`, `id_municipalidad`) VALUES
-(38917478, "1", 123, 'ElSantiPiola', 50, 1),
-(38297408, "2001013538297408", 121, 'ElLuchin', 50, 1),
-(35796172, "3", 120, 'Leox', 51, 1);
+(12654789, '2001013512654789', 654, 'Sancho Panza', 2000000, 1),
+(38297408, '2001013513896608', 123, 'Luciano', 5000, 1),
+(15468798, '2001013515468798', 528, 'Juancho Talarga', 2000000, 1),
+(25894689, '2001013525894689', 964, 'Pedro Lopez', 20000, 1),
+(38297408, '2001013538297408', 121, 'ElLuchin', 50, 1),
+(65489256, '2001013565489256', 573, 'Fernando Rodriguez', 20000, 1);
 
 -- --------------------------------------------------------
 
@@ -64,7 +67,10 @@ CREATE TABLE `municipalidades` (
 --
 
 INSERT INTO `municipalidades` (`id_municipalidad`, `n_provincia`, `nombre`, `n_empleados`) VALUES
-(1, 1, 'MDP', 3);
+(0, 0, '', 0),
+(1, 1, 'MDP', 3),
+(2, 15, 'Río Negro', 4000),
+(135, 22, 'Lezama', 284567);
 
 -- --------------------------------------------------------
 
@@ -85,7 +91,10 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id_proveedor`, `id_municipalidad`, `nombre`, `direccion`, `categoria`) VALUES
-(1, 1, 'Rfe', 'Alberti', 1);
+(1, 1, 'Sancor', 'Las heras 2358', 3),
+(2, 1, 'Toledo', 'Lamadrid 4353', 6),
+(3, 1, 'Walmart', 'San Juan 5000', 12),
+(4, 1, 'Carrefour', 'Gonzalez perez 4578', 12);
 
 -- --------------------------------------------------------
 
@@ -98,7 +107,7 @@ CREATE TABLE `transacciones` (
   `id_proveedor` int(11) DEFAULT NULL,
   `n_transaccion` int(11) NOT NULL,
   `monto` double UNSIGNED DEFAULT NULL,
-  `fecha` date DEFAULT NULL
+  `fecha` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -106,12 +115,10 @@ CREATE TABLE `transacciones` (
 --
 
 INSERT INTO `transacciones` (`n_tarjeta`, `id_proveedor`, `n_transaccion`, `monto`, `fecha`) VALUES
-("1", 1, 1, 1, '2019-11-22'),
-("2", 1, 2, 2, '2019-11-27'),
-("3", 1, 3, 3, '2019-11-25'),
-("1", 1, 4, 1, '2019-11-23'),
-("2", 1, 5, 2, '2019-11-20'),
-("3", 1, 6, 3, '2019-11-23');
+('1', 1, 1, 1, '2019-11-22'),
+('3', 1, 3, 3, '2019-11-25'),
+('1', 1, 4, 1, '2019-11-23'),
+('2001013525894689', 4, 2147483647, 200, '2020-01-24');
 
 --
 -- Índices para tablas volcadas
@@ -146,6 +153,16 @@ ALTER TABLE `transacciones`
   ADD KEY `id_proveedor` (`id_proveedor`);
 
 --
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `proveedores`
+--
+ALTER TABLE `proveedores`
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -160,13 +177,6 @@ ALTER TABLE `empleados`
 --
 ALTER TABLE `proveedores`
   ADD CONSTRAINT `proveedores_ibfk_1` FOREIGN KEY (`id_municipalidad`) REFERENCES `municipalidades` (`id_municipalidad`);
-
---
--- Filtros para la tabla `transacciones`
---
-ALTER TABLE `transacciones`
-  ADD CONSTRAINT `transacciones_ibfk_1` FOREIGN KEY (`n_tarjeta`) REFERENCES `empleados` (`n_tarjeta`),
-  ADD CONSTRAINT `transacciones_ibfk_2` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
