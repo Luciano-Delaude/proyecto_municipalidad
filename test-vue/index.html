@@ -8,32 +8,210 @@
          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
          crossorigin="anonymous">
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
          <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet">
          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+     
+         <style type="text/css">
+            #overlay {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                background: rgba(0, 0, 0, 0.6);
+            }
+         </style>
          
     </head>
     <body ng-controller="testCtrl">
         <div id="app" class="container">
             <div class="alert alert-primary w-100 d-flex justify-content-center" role="alert">               
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-success" @click="getAll()">
+                    <button type="button" class="btn btn-primary" 
+                    @click="pagEmpleados = true;
+                            pagProveedores = false;
+                            pagBuscar = false;
+                            pagTransaccion = false;
+                            bob = false;
+                            info = [];
+                            getAll();">
                         <i class="material-icons">person</i>
-                        Empleados
+                        <p class="text-center">Empleados</p> 
                     </button>
-                    <button type="button" class="btn btn-primary">Proveedores</button>
-                    <button type="button" class="btn btn-primary">Transacciones</button>
-                    <button type="button" class="btn btn-primary">Buscar</button>
+                    <button type="button" class="btn btn-primary"
+                    @click="pagEmpleados = false;
+                            pagProveedores = true;
+                            pagBuscar = false;
+                            pagTransaccion = false;
+                            bob = false;
+                            info = [];
+                            getProv();"
+                            >
+                        <i class="material-icons">local_shipping</i>
+                        <p class="text-center">Proveedores</p>
+                    </button>
+                    <button type="button" class="btn btn-primary"
+                    @click="pagEmpleados = false;
+                            pagProveedores = false;
+                            pagBuscar = false;
+                            pagTransaccion = true;
+                            bob = false;
+                            info = [];
+                            getTran();"
+                            >
+                        <i class="material-icons">shopping_basket</i>
+                        <p class="text-center">Transacciones</p>
+                    </button>
+                    <button type="button" class="btn btn-primary"
+                    @click="pagEmpleados = false;
+                            pagProveedores = false;
+                            pagBuscar = true;
+                            pagTransaccion = false;
+                            bob = false;
+                            info = [];"
+                            >
+                        <i class="material-icons">search</i>
+                        <p class="text-center">Buscar</p>
+                    </button>
                   </div>
             </div>
+
             <img v-if="bob" src="assets/bob.png" alt="bob" class="rounded mx-auto d-block">
+
             <div v-if="pagEmpleados">
                 <h1 class="text-center">PAGINA DE EMPLEADOS</h1>
                 <div class="mb-2">
-                    <button type="button" class="btn btn-success w-100 ">Agregar nuevo</button>
+                    <button type="button" class="btn btn-success w-100 " 
+                    @click="showAddModal=true">Agregar nuevo</button>
                 </div>
                 
+                <!-- Modal nuevo usuario -->
+                <div id="overlay" v-if="showAddModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Agregar nuevo empleado</h5>
+                                <button type="button" class="close" @click="showAddModal=false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form action="#" method="POST">
+                                    <div>
+                                        <input type="text" name="dni" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="DNI" v-model="nuevoEmp.dni">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="nTarjeta" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Numero de tarjeta" v-model="nuevoEmp.nTarjeta">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="pin" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="PIN de tarjeta" v-model="nuevoEmp.pinTarjeta">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="municipio" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Numero de municipio" v-model="nuevoEmp.muni">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="nombre" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Nombre" v-model="nuevoEmp.nombre">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="saldo" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Saldo" v-model="nuevoEmp.saldo">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block" 
+                                        @click="showAddModal=false; addEmpleado();">Agregar</button>
+                                    </div>
+                                </form>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal editar usuario -->
+                <div id="overlay" v-if="showEditModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar empleado</h5>
+                                <button type="button" class="close" @click="showEditModal=false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form action="#" method="POST">
+                                    <div>
+                                        Numero de tarjeta
+                                        <input type="text" name="nTarjeta" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Numero de tarjeta"
+                                        v-model = "currentUser.n_tarjeta">
+                                    </div>
+                                    <div>
+                                        PIN de tarjeta
+                                        <input type="text" name="pin" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="PIN de tarjeta"
+                                        v-model = "currentUser.pin_tarjeta">
+                                    </div>
+                                    <div>
+                                        Nombre
+                                        <input type="text" name="nombre" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Nombre"
+                                        v-model = "currentUser.nombre">
+                                    </div>
+                                    <div>
+                                        Saldo
+                                        <input type="text" name="saldo" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Saldo"
+                                        v-model = "currentUser.saldo">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-warning btn-block" 
+                                        @click="showEditModal=false; editEmpleado();">Guardar</button>
+                                    </div>
+                                </form>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal borrar usuario -->
+                <div id="overlay" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Borrar empleado</h5>
+                                <button type="button" class="close" @click="showDeleteModal=false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <h5>Se borrara "{{currentUser.nombre}}" de la base de datos</h5> 
+                                <hr>
+                                <button class="btn btn-danger btn-md" @click="showDeleteModal=false; deleteEmp()">Si</button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-secondary btn-md" @click="showDeleteModal=false">No</button>                  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="text" class="w-100 mb-2 form-control" placeholder="Buscar empleado por nombres" v-model="searchName">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -46,7 +224,8 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody v-for="user in info">
+
+                    <tbody v-for="user in searchEmp">
                         <tr >
                             <td>{{user.dni}}</td>
                             <td>{{user.n_tarjeta}}</td>
@@ -54,16 +233,149 @@
                             <td>{{user.id_municipalidad}}</td>
                             <td>{{user.nombre}}</td>
                             <td>{{user.saldo}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info" @click="showEditModal=true; selectUser(user)">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button type="button" class="btn btn-danger" @click="showDeleteModal=true; selectUser(user)">
+                                    <i class="material-icons">delete_forever</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div v-if="pagProveedores">
+                <h1 class="text-center">PAGINA DE PROVEEDORES</h1>
+                <div class="mb-2">
+                    <button type="button" class="btn btn-success w-100 " 
+                    @click="showAddModal=true">Agregar nuevo</button>
+                </div>
+                
+                <!-- Modal nuevo PROVEEDOR -->
+                <div id="overlay" v-if="showAddModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Agregar nuevo proveedor</h5>
+                                <button type="button" class="close" @click="showAddModal=false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form action="#" method="POST">
+                                    
+                                    <div>
+                                        <input type="text" name="id_municipalidad" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Identificador de municipio" v-model="nuevoPro.muni">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="nombre" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Nombre" v-model="nuevoPro.nombre">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="direccion" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="direccion" v-model="nuevoPro.direccion">
+                                    </div>
+                                    <div>
+                                        <input type="text" name="categoria" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Categoria" v-model="nuevoPro.categoria">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block" 
+                                        @click="showAddModal=false; addProveedor();">Agregar</button>
+                                    </div>
+                                </form>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal borrar PROVEEDOR -->
+                <div id="overlay" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Borrar Proveedor</h5>
+                                <button type="button" class="close" @click="showDeleteModal=false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <h5>Se borrara "{{currentUser.nombre}}" de la base de datos. ID {{currentUser.id_proveedor}}</h5> 
+                                <hr>
+                                <button class="btn btn-danger btn-md" @click="showDeleteModal=false; deleteProv()">Si</button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-secondary btn-md" @click="showDeleteModal=false">No</button>                  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Municipio</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Direccion</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="user in info">
+                        <tr >
+                            <td>{{user.id_proveedor}}</td>
+                            <td>{{user.id_municipalidad}}</td>
+                            <td>{{user.nombre}}</td>
+                            <td>{{user.direccion}}</td>
+                            <td>{{user.categoria}}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" @click="showDeleteModal=true; selectUser(user)">
+                                    <i class="material-icons">delete_forever</i>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <div v-if="pagTransaccion">
+                <h1 class="text-center">PAGINA DE TRANSACCIONES</h1>   
+                
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Num Tarjeta</th>
+                            <th scope="col">ID Proveedor</th>
+                            <th scope="col">Numero de Transaccion</th>
+                            <th scope="col">Monto $</th>
+                            <th scope="col">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="user in info">
+                        <tr >
+                            <td>{{user.n_tarjeta}}</td>
+                            <td>{{user.id_proveedor}}</td>
+                            <td>{{user.n_transaccion}}</td>
+                            <td>{{user.monto}}</td>
+                            <td>{{user.fecha}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <div class="card-footer text-muted mt-2">
                 <p class="text-center">En desarrollo - No Somos Cavernicolas Team ©</p> 
               </div>
         </div>
        
         <script src="test1.js"></script>
-        <script src="test2.js"></script>
     </body>
 </html>
