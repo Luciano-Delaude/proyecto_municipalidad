@@ -12,8 +12,8 @@ $nombre = $_POST['nombre'];
 $direccion = $_POST['direccion'];
 $categoria = $_POST['categoria'];
 
-$result = $conn->query("INSERT INTO `proveedores` (`id_municipalidad`, `nombre`, `direccion`, `categoria`) 
-                        VALUES ($muni','$nombre','$direccion','$categoria')");
+$result = $conn->query("INSERT INTO `proveedores`(`id_proveedor`, `id_municipalidad`, `nombre`, `direccion`, `categoria`) 
+                        VALUES (NULL,'$muni','$nombre','$direccion','$categoria')");
 if($result){
     $response['message'] = "Proveedor agregado correctamente";
 }else{

@@ -1,10 +1,9 @@
 <?php
 
-$conn = mysqli_connect("sql10.freesqldatabase.com", "sql10319705", "FUSjNnd3cE", "sql10319705");
+$conn = mysqli_connect("localhost", "root", "", "proyecto_muni");
 if (!$conn){
     die("Connection Failed".mysqli_connect_error());
 }
-
 
 $result = array('error'=>false);
 

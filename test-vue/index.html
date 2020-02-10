@@ -13,6 +13,11 @@
             rel="stylesheet">
          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ 
      
          <style type="text/css">
             #overlay {
@@ -26,57 +31,91 @@
          </style>
          
     </head>
-    <body ng-controller="testCtrl">
-        <div id="app" class="container">
-            <div class="alert alert-primary w-100 d-flex justify-content-center" role="alert">               
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" 
+    <body ng-controller="testCtrl" class="bg-secondary">
+        <div id="app" class="container ">
+            <div class="alert bg-dark w-100 d-flex justify-content-center" role="alert">               
+                <div class="btn-group " role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary" 
                     @click="pagEmpleados = true;
                             pagProveedores = false;
                             pagBuscar = false;
                             pagTransaccion = false;
                             bob = false;
+                            showTotal = false;
                             info = [];
                             getAll();">
                         <i class="material-icons">person</i>
                         <p class="text-center">Empleados</p> 
                     </button>
-                    <button type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn-secondary"
                     @click="pagEmpleados = false;
                             pagProveedores = true;
                             pagBuscar = false;
                             pagTransaccion = false;
                             bob = false;
+                            showTotal = false;
                             info = [];
                             getProv();"
                             >
                         <i class="material-icons">local_shipping</i>
                         <p class="text-center">Proveedores</p>
                     </button>
-                    <button type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn-secondary"
                     @click="pagEmpleados = false;
                             pagProveedores = false;
                             pagBuscar = false;
                             pagTransaccion = true;
                             bob = false;
+                            showTotal = false;
                             info = [];
                             getTran();"
                             >
                         <i class="material-icons">shopping_basket</i>
                         <p class="text-center">Transacciones</p>
                     </button>
-                    <button type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn-secondary"
                     @click="pagEmpleados = false;
                             pagProveedores = false;
                             pagBuscar = true;
                             pagTransaccion = false;
                             bob = false;
-                            info = [];"
+                            showTotal = false;
+                            info = [];
+                            change();
+                            getProv();"
                             >
                         <i class="material-icons">search</i>
                         <p class="text-center">Buscar</p>
                     </button>
                   </div>
+            </div>
+
+            <div v-if="toast.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast.code" >               
+            </div>
+            <div v-if="toast1.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast1.code" >               
+            </div>
+            <div aria-live="assertive" 
+            aria-atomic="true"
+            v-if="toast2.on" 
+            class="d-flex justify-content-center align-items-center" 
+            v-html="toast2.code" >               
+            </div>
+            <div v-if="toast3.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast3.code" >               
+            </div>
+            <div v-if="toast4.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast4.code" >               
+            </div>
+            <div v-if="toast5.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast5.code" >               
+            </div>
+            <div v-if="toast6.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast6.code" >               
+            </div>
+            <div v-if="toast7.on" class="d-flex justify-content-center align-items-center" 
+            v-html="toast7.code" >               
             </div>
 
             <img v-if="bob" src="assets/bob.png" alt="bob" class="rounded mx-auto d-block">
@@ -182,7 +221,7 @@
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-warning btn-block" 
-                                        @click="showEditModal=false; editEmpleado();">Guardar</button>
+                                        @click="showEditModal=false; currentUser['funcion'] = 'editEmp'; edit();">Guardar</button>
                                     </div>
                                 </form>                               
                             </div>
@@ -212,7 +251,8 @@
                 </div>
                 
                 <input type="text" class="w-100 mb-2 form-control" placeholder="Buscar empleado por nombres" v-model="searchName">
-                <table class="table">
+
+                <table class="table table-light table-hover table-bordered">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">DNI</th>
@@ -297,6 +337,49 @@
                     </div>
                 </div>
 
+                <!-- Modal editar Proveedor -->
+                <div id="overlay" v-if="showEditModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar proveedor</h5>
+                                <button type="button" class="close" @click="showEditModal=false">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form action="#" method="POST">
+                                    <div>
+                                        Nombre
+                                        <input type="text" name="nombre" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Nombre"
+                                        v-model = "currentUser.nombre">
+                                    </div>
+                                    <div>
+                                        Direccion
+                                        <input type="text" name="direccion" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Direccion"
+                                        v-model = "currentUser.direccion">
+                                    </div>
+                                    <div>
+                                        Categoria
+                                        <input type="text" name="categoria" 
+                                        class="form-control formcontrol-lg mb-2"
+                                        placeholder="Categoria"
+                                        v-model = "currentUser.categoria">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-warning btn-block" 
+                                        @click="showEditModal=false; currentUser['funcion'] = 'editPro'; edit();">Guardar</button>
+                                    </div>
+                                </form>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Modal borrar PROVEEDOR -->
                 <div id="overlay" v-if="showDeleteModal">
                     <div class="modal-dialog">
@@ -318,7 +401,8 @@
                     </div>
                 </div>
                 
-                <table class="table">
+                <input type="text" class="w-100 mb-2 form-control" placeholder="Buscar proveedor por nombres" v-model="searchName">
+                <table class="table table-light table-hover table-bordered">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">ID</th>
@@ -329,14 +413,17 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody v-for="user in info">
-                        <tr >
+                    <tbody v-for="user in searchEmp">
+                        <tr>
                             <td>{{user.id_proveedor}}</td>
                             <td>{{user.id_municipalidad}}</td>
                             <td>{{user.nombre}}</td>
                             <td>{{user.direccion}}</td>
                             <td>{{user.categoria}}</td>
                             <td>
+                                <button type="button" class="btn btn-info" @click="showEditModal=true; selectUser(user)">
+                                    <i class="material-icons">edit</i>
+                                </button>
                                 <button type="button" class="btn btn-danger" @click="showDeleteModal=true; selectUser(user)">
                                     <i class="material-icons">delete_forever</i>
                                 </button>
@@ -349,11 +436,12 @@
             <div v-if="pagTransaccion">
                 <h1 class="text-center">PAGINA DE TRANSACCIONES</h1>   
                 
-                <table class="table">
+                <table class="table table-light table-hover table-bordered">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Num Tarjeta</th>
                             <th scope="col">ID Proveedor</th>
+                            <th scope="col">Nombre Proveedor</th>
                             <th scope="col">Numero de Transaccion</th>
                             <th scope="col">Monto $</th>
                             <th scope="col">Fecha</th>
@@ -363,6 +451,7 @@
                         <tr >
                             <td>{{user.n_tarjeta}}</td>
                             <td>{{user.id_proveedor}}</td>
+                            <td>{{user.nombre}}</td>
                             <td>{{user.n_transaccion}}</td>
                             <td>{{user.monto}}</td>
                             <td>{{user.fecha}}</td>
@@ -371,11 +460,45 @@
                 </table>
             </div>
 
-            <div class="card-footer text-muted mt-2">
+            <div v-if="pagBuscar">
+                <h1 class="text-center">PAGINA DE BUSQUEDA</h1>   
+                
+                <div class="input-group mb-3">
+                        <div class="dropdown input-group-prepend">
+                            <button class="btn btn-primary dropdown-toggle" 
+                            type="button" 
+                            id="dropdownMenu2" 
+                            data-toggle="dropdown"
+                            aria-haspopup="true" 
+                            aria-expanded="false"
+                            @click="showTotal=false">
+                              Seleccione un proveedor
+                            </button>
+                            <div class="dropdown-menu" >
+                                <ul class="list-group" v-for="user in info">
+                                    <button class="dropdown-item" type="button" @click="selectUser(user); total=0;">
+                                        {{user.id_proveedor}}-{{user.nombre}}
+                                    </button>
+                                </ul>
+                            </div>
+                        </div>                  
+                    <input type="text" class="form-control" v-model="currentUser.nombre">
+                    <button class="btn btn-success" type="button" @click="calcular()">
+                        Calcular monto total mensual
+                      </button>
+                </div>
+                <div v-if="showTotal" class="alert alert-success w-100 d-flex" role="alert">
+                    <h3>El monto mensual a pagar a {{currentUser.nombre}} es: ${{total}}</h3>
+                </div>
+
+            </div>
+
+            <div class="card-footer text-muted mt-2 bg-light">
                 <p class="text-center">En desarrollo - No Somos Cavernicolas Team ©</p> 
               </div>
         </div>
        
-        <script src="test1.js"></script>
+        <script src="js/funciones.js"></script>
+
     </body>
 </html>

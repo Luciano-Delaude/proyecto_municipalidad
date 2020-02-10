@@ -8,9 +8,25 @@ if (!$conn){
 
 $result = array('error'=>false);
 
-$sql = $conn->query("SELECT * FROM `transacciones`");
+$sql = $conn->query("SELECT `transacciones`.`n_transaccion`,
+                            `transacciones`.`fecha`,
+                            `transacciones`.`monto`,
+                            `transacciones`.`n_tarjeta`,
+                            `transacciones`.`id_proveedor`,
+                            `proveedores`.`nombre`
+                             FROM `transacciones` INNER JOIN `proveedores`
+                             ON `transacciones`.`id_proveedor`=`proveedores`.`id_proveedor`
+                             ORDER BY `transacciones`.`fecha`");
 $users = array();
-$retval = mysqli_query($conn, "SELECT * FROM `transacciones`");
+$retval = mysqli_query($conn, "SELECT `transacciones`.`n_transaccion`,
+                                    `transacciones`.`fecha`,
+                                    `transacciones`.`monto`,
+                                    `transacciones`.`n_tarjeta`,
+                                    `transacciones`.`id_proveedor`,
+                                    `proveedores`.`nombre`
+                                    FROM `transacciones` INNER JOIN `proveedores`
+                                    ON `transacciones`.`id_proveedor`=`proveedores`.`id_proveedor`
+                                    ORDER BY `transacciones`.`fecha`");
 while($row = $sql->fetch_assoc()){
     array_push($users, $row);
 }
