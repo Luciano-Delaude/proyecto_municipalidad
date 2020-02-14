@@ -11,8 +11,8 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
+create database proyecto_muni;
+use proyecto_muni;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -107,7 +107,7 @@ CREATE TABLE `transacciones` (
   `id_proveedor` int(11) DEFAULT NULL,
   `n_transaccion` int(11) NOT NULL,
   `monto` double UNSIGNED DEFAULT NULL,
-  `fecha` date DEFAULT current_timestamp()
+  `fecha` timestamp DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -115,10 +115,10 @@ CREATE TABLE `transacciones` (
 --
 
 INSERT INTO `transacciones` (`n_tarjeta`, `id_proveedor`, `n_transaccion`, `monto`, `fecha`) VALUES
-('1', 1, 1, 1, '2019-11-22'),
-('3', 1, 3, 3, '2019-11-25'),
-('1', 1, 4, 1, '2019-11-23'),
-('2001013525894689', 4, 2147483647, 200, '2020-01-24');
+('1', 1, 1, 1, '2020-11-22'),
+('3', 1, 3, 3, '2020-11-25'),
+('1', 1, 4, 1, '2020-11-23'),
+('2001013525894689', 4, 2147483647, 200, '2020-03-24');
 
 --
 -- Índices para tablas volcadas
