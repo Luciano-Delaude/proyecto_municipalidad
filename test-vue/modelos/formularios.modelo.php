@@ -119,40 +119,39 @@ class ModeloFormularios{
     ===================================================*/
 
     static public function mdlSelect($tabla,$item,$valor){
-        if($item == null & $valor == null){
-            if($tabla == "empleados"){
-                $stmt = Conexion::connect()->prepare("SELECT * FROM $tabla ORDER BY $tabla.`nombre` ASC");
-                $stmt->execute();
-                return $stmt->fetchAll(); 
-            }
-            if($tabla == "transacciones"){
-                $stmt = Conexion::connect()->prepare("SELECT $tabla.`n_transaccion`,
-                                                            $tabla.`fecha`,
-                                                            $tabla.`monto`,
-                                                            $tabla.`n_tarjeta`,
-                                                            $tabla.`id_proveedor`,
-                                                            `proveedores`.`nombre`
-                                                            FROM $tabla INNER JOIN `proveedores`
-                                                            ON $tabla.`id_proveedor`=`proveedores`.`id_proveedor`
-                                                            ORDER BY $tabla.`fecha`");
-                $stmt->execute();
-                return $stmt->fetchAll(); 
-            }else{
-                $stmt = Conexion::connect()->prepare("SELECT * FROM $tabla");
-                $stmt->execute();
-                return $stmt->fetchAll(); 
-            }
+        
+        if($tabla == "empleados" || $tabla == "proveedores"){
+            $stmt = Conexion::connect()->prepare("SELECT * FROM $tabla WHERE $item=$valor ORDER BY $tabla.`nombre` ASC");
+            $stmt->execute();
+            return $stmt->fetchAll(); 
         }
-        else{
-        $stmt = Conexion::connect() ->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY $item DESC");
+        if($tabla == "transacciones"){
+            $stmt = Conexion::connect()->prepare("SELECT $tabla.`n_transaccion`,
+                                                        $tabla.`fecha`,
+                                                        $tabla.`monto`,
+                                                        $tabla.`n_tarjeta`,
+                                                        $tabla.`id_proveedor`,
+                                                        `proveedores`.`nombre`
+                                                        FROM $tabla INNER JOIN `proveedores`
+                                                        ON $tabla.`id_proveedor`=`proveedores`.`id_proveedor`
+                                                        WHERE `proveedores`.`id_municipalidad` = $valor ORDER BY $tabla.`fecha`");
+            $stmt->execute();
+            return $stmt->fetchAll(); 
+        }else{
+            $stmt = Conexion::connect()->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+            return $stmt->fetchAll(); 
+        }
+        
+        /* $stmt = Conexion::connect() ->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY $item DESC");
         
         $stmt -> bindParam(":".$item,$valor,PDO::PARAM_STR);
         $stmt ->execute();
 
-        return $stmt->fetch(); 
+        return $stmt->fetch();  */
 
         $stmt = null;
-        }
+    
     }
 
     static public function mdlUpdate($tabla,$datos){
@@ -230,6 +229,17 @@ class ModeloFormularios{
     static public function mdlCalculate($tabla1,$tabla2,$id){
         $stmt = Conexion::connect() ->prepare("SELECT SUM($tabla2.`monto`) AS `total` FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.`id_proveedor`=$tabla2.`id_proveedor` WHERE $tabla1.`id_proveedor`=:$id");
         $stmt -> bindParam(":$id",$id,PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    static public function mdlAdmin($tabla,$datos){
+        $user = $datos['usuario'];
+        $pass = $datos['password'];
+        $stmt = Conexion::connect() ->prepare("SELECT `id_municipio` FROM `administradores` 
+                                               WHERE `usuario`=:user AND `password`=:pass");
+        $stmt ->bindParam(":user",$user,PDO::PARAM_STR);
+        $stmt ->bindParam(":pass",$pass,PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll();
     }

@@ -44,8 +44,10 @@ if($funcion == "addEmp"){
 
 if($funcion == "getEmp"){
     $tabla = "empleados";
+    $item = "id_municipalidad";
+    $valor = $_POST['municipio'];
     $users = array();
-    $users = ControladorFormularios::ctrlSelect($tabla,null,null);
+    $users = ControladorFormularios::ctrlSelect($tabla,$item,$valor);
     $response['users'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);
@@ -53,8 +55,10 @@ if($funcion == "getEmp"){
 
 if($funcion == "getProv"){
     $tabla = "proveedores";
+    $item = "id_municipalidad";
+    $valor = $_POST['municipio'];
     $users = array();
-    $users = ControladorFormularios::ctrlSelect($tabla,null,null);
+    $users = ControladorFormularios::ctrlSelect($tabla,$item,$valor);
     $response['users'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);
@@ -62,8 +66,10 @@ if($funcion == "getProv"){
 
 if($funcion == "getTran"){
     $tabla = "transacciones";
+    $item = "id_municipalidad";
+    $valor = $_POST['municipio'];
     $users = array();
-    $users = ControladorFormularios::ctrlSelect($tabla,null,null);
+    $users = ControladorFormularios::ctrlSelect($tabla,$item,$valor);
     $response['users'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);
@@ -139,6 +145,15 @@ if ($funcion == "calcular"){
     $tabla2 = "transacciones";
     $id = $_POST['id_proveedor'];
     $response['result'] = ControladorFormularios::ctrlCalculate($tabla1,$tabla2,$id);
+    header("Content-type: application/json");
+    echo json_encode($response);
+}
+
+if ($funcion == "login"){
+    $tabla = "administradores";
+    $data = array("usuario" => $_POST['user'],
+                  "password" => $_POST['pass']);
+    $response['admin'] = ControladorFormularios::ctrAdmin($tabla, $data);
     header("Content-type: application/json");
     echo json_encode($response);
 }

@@ -69,6 +69,12 @@ class ControladorFormularios{
         $result = ModeloFormularios::mdlDelete($tabla,$valor,$indice);
         return $result;
     }
+
+    static public function ctrAdmin($tabla,$datos){
+
+        $result = ModeloFormularios::mdlAdmin($tabla,$datos);
+        return $result;
+    }
 }
 
 

@@ -8,6 +8,7 @@ const app = new Vue({
     pagTransaccion: false,
     pagBuscar: false,
     bob: true,
+    acceso: sessionStorage.getItem('acceso'),
     showAddModal: false,
     showEditModal: false,
     showDeleteModal: false,
@@ -16,12 +17,14 @@ const app = new Vue({
     showTotal: false,
     errorMsg: "errorMSG",
     succesMsg: "succesMSG",
-    nuevoEmp: {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:"", muni:""},
-    nuevoPro: {muni:"", nombre:"", direccion:"", categoria:"", funcion:""},
+    nuevoEmp: {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:"", muni: sessionStorage.getItem('idMunicipio')},
+    nuevoPro: {muni:sessionStorage.getItem('idMunicipio'), nombre:"", direccion:"", categoria:"", funcion:""},
     currentUser:{}, 
     searchName: '',
     tarea: {funcion:""},
     total: 0,
+    code: "zVp6m;K-@/-9y4^/",
+    rCode: "",
     //empleado success
     toast: {on: false, code: `<div id="toast" class="toast bg-success " role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
               <div class="toast-header bg-success">
@@ -99,6 +102,7 @@ const app = new Vue({
   methods: {
     getAll: function(){
       app.tarea.funcion = "getEmp";
+      app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
       axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
@@ -115,6 +119,7 @@ const app = new Vue({
 
     getProv: function(){
       app.tarea.funcion = "getProv";
+      app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
       axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
@@ -131,6 +136,7 @@ const app = new Vue({
 
     getTran: function(){
       app.tarea.funcion = "getTran";
+      app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
       axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
@@ -144,7 +150,7 @@ const app = new Vue({
       var formData = app.toFormData(app.nuevoEmp);
       axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
-        app.nuevoEmp = {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:"", muni:"", funcion:""};
+        app.nuevoEmp = {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:"", funcion:"", muni: sessionStorage.getItem('idMunicipio')};
         if(response.data.error){
           app.errorMsg = response.data.message;
           console.log(app.errorMsg);
@@ -165,7 +171,7 @@ const app = new Vue({
       var formData = app.toFormData(app.nuevoPro);
       axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
-        app.nuevoPro = {muni:"", nombre:"", direccion:"", categoria:"", funcion:""};
+        app.nuevoPro = {nombre:"", direccion:"", categoria:"", funcion:"", muni: sessionStorage.getItem('idMunicipio')};
         if(response.data.error){
           app.errorMsg = response.data.message;
           console.log(app.errorMsg);
@@ -290,8 +296,8 @@ const app = new Vue({
       });
     },
 
-    change: function(){
-      console.log("CHANGE");
+    salir: function(){
+      sessionStorage.clear();
       window.location.replace("http://localhost/muni/login.html");
     }
   },
@@ -301,6 +307,16 @@ const app = new Vue({
     searchEmp: function (){
       return app.info.filter((item) => item.nombre.toUpperCase().includes(app.searchName.toUpperCase()));
     }
+  },
+
+  mounted: function(){
+    if(this.acceso){
+      this.rCode = sessionStorage.getItem('code');
+    }
+  },
+
+  destroyed: function(){
+    sessionStorage.clear();
   }
  
 })
