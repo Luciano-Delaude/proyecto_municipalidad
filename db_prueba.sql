@@ -25,6 +25,31 @@ use proyecto_muni;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `administradores`
+--
+
+CREATE TABLE `administradores` (
+  `id_admin` int(11) NOT NULL,
+  `usuario` varchar(100) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `id_municipio` int(11) DEFAULT NULL,
+  `rol` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `administradores`
+--
+
+INSERT INTO `administradores` (`id_admin`, `usuario`, `password`, `id_municipio`, `rol`) VALUES
+(1, 'azuladm', 'W6zuST!r9HZ8Xd!$', 1, NULL),
+(2, 'olavadm', 'xZ6HmffbG!g%3zpj', 78, NULL),
+(3, 'lezamadm', 'b9&vRS?s$xZbYQQX', 135, NULL),
+(4, 'mardeladm', 'LrdkKG%dLT%7^_Z8', 10, NULL),
+(7, 'superAdm', '5%;87hBVx:RY]NLpm', NULL, 'super');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `empleados`
 --
 
@@ -80,7 +105,7 @@ INSERT INTO `municipalidades` (`id_municipalidad`, `n_provincia`, `nombre`, `n_e
 
 CREATE TABLE `proveedores` (
   `id_proveedor` int(11) NOT NULL,
-  `id_municipalidad` int(11) NOT NULL,
+  `id_municipalidad` int(3) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `direccion` varchar(100) DEFAULT NULL,
   `categoria` smallint(6) DEFAULT NULL
@@ -125,6 +150,13 @@ INSERT INTO `transacciones` (`n_tarjeta`, `id_proveedor`, `n_transaccion`, `mont
 --
 
 --
+-- Indices de la tabla `administradores`
+--
+ALTER TABLE `administradores`
+  ADD PRIMARY KEY (`id_admin`),
+  ADD KEY `id_municipio` (`id_municipio`);
+
+--
 -- Indices de la tabla `empleados`
 --
 ALTER TABLE `empleados`
@@ -167,6 +199,12 @@ ALTER TABLE `proveedores`
 --
 
 --
+-- Filtros para la tabla `administradores`
+--
+ALTER TABLE `administradores`
+  ADD CONSTRAINT `administradores_ibfk_1` FOREIGN KEY (`id_municipio`) REFERENCES `municipalidades` (`id_municipalidad`);
+
+--
 -- Filtros para la tabla `empleados`
 --
 ALTER TABLE `empleados`
@@ -177,6 +215,13 @@ ALTER TABLE `empleados`
 --
 ALTER TABLE `proveedores`
   ADD CONSTRAINT `proveedores_ibfk_1` FOREIGN KEY (`id_municipalidad`) REFERENCES `municipalidades` (`id_municipalidad`);
+--
+-- Filtros para la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  ADD CONSTRAINT `transacciones_ibfk_1` FOREIGN KEY (`n_tarjeta`) REFERENCES `empleados` (`n_tarjeta`),
+  ADD CONSTRAINT `transacciones_ibfk_2` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
