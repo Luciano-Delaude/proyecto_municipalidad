@@ -104,7 +104,7 @@ const app = new Vue({
       app.tarea.funcion = "getEmp";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;
@@ -121,7 +121,7 @@ const app = new Vue({
       app.tarea.funcion = "getProv";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;
@@ -138,7 +138,7 @@ const app = new Vue({
       app.tarea.funcion = "getTran";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;
@@ -148,7 +148,7 @@ const app = new Vue({
     addEmpleado: function(){
       app.nuevoEmp["funcion"]= "addEmp";
       var formData = app.toFormData(app.nuevoEmp);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.nuevoEmp = {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:"", funcion:"", muni: sessionStorage.getItem('idMunicipio')};
         if(response.data.error){
@@ -169,7 +169,7 @@ const app = new Vue({
     addProveedor: function(){
       app.nuevoPro["funcion"] = "addPro";
       var formData = app.toFormData(app.nuevoPro);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.nuevoPro = {nombre:"", direccion:"", categoria:"", funcion:"", muni: sessionStorage.getItem('idMunicipio')};
         if(response.data.error){
@@ -189,7 +189,7 @@ const app = new Vue({
 
     edit: function(){
       var formData = app.toFormData(app.currentUser);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         
         if(response.data.error){
@@ -220,7 +220,7 @@ const app = new Vue({
     deleteEmp: function(){
       app.currentUser["funcion"] = "borrarEmp"
       var formData = app.toFormData(app.currentUser);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         if(response.data.error){
           app.errorMsg = response.data.message;
@@ -248,7 +248,7 @@ const app = new Vue({
     deleteProv: function(){
       app.currentUser["funcion"] = "borrarProv"
       var formData = app.toFormData(app.currentUser);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.currentUser = {};
         if(response.data.error){
@@ -288,7 +288,7 @@ const app = new Vue({
     calcular: function(){
       app.currentUser['funcion'] = "calcular";
       var formData = app.toFormData(app.currentUser);
-      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      axios.post("./controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.total = response.data.result[0].total
         app.showTotal = true;
@@ -298,7 +298,7 @@ const app = new Vue({
 
     salir: function(){
       sessionStorage.clear();
-      window.location.replace("http://localhost/muni/login.html");
+      window.location.replace("./login.html");
     }
   },
 
