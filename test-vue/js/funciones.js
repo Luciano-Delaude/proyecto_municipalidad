@@ -104,7 +104,7 @@ const app = new Vue({
       app.tarea.funcion = "getEmp";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://54.203.96.189/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;

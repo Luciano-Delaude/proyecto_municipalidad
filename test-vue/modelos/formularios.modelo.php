@@ -244,6 +244,24 @@ class ModeloFormularios{
         return $stmt->fetchAll();
     }
 
+    static public function rstMonto($data){
+        $n_tarjeta = $data['nTarjeta'];
+        $pin_tarjeta = $data['pinTarjeta'];
+        $monto = $data['monto'];
+        $stmt = Conexion::connect() -> prepare("UPDATE empleados SET saldo = saldo - $monto 
+                                                WHERE n_tarjeta = :n_tarjeta AND pin_tarjeta = :pin_tarjeta");
+        $stmt ->bindParam(":n_tarjeta",$n_tarjeta,PDO::PARAM_STR);
+        $stmt ->bindParam(":pin_tarjeta",$pin_tarjeta,PDO::PARAM_INT);
+        $stmt->execute();
+        if($stmt->execute()){
+            $stmt = null;
+            return "ok";
+        }
+        else{
+            $stmt = null;
+            return Conexion::connect()->errorInfo();
+        }
+    }
 }
 
 

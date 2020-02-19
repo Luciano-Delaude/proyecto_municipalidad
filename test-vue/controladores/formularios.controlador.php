@@ -75,6 +75,10 @@ class ControladorFormularios{
         $result = ModeloFormularios::mdlAdmin($tabla,$datos);
         return $result;
     }
+    static public function ctrlMonto($data){
+        $result = ModeloFormularios::rstMonto($data);
+        return $result;
+    }
 }
 
 

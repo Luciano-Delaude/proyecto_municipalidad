@@ -12,13 +12,8 @@ const lgn = new Vue ({
         submit: function(){
             lgn.admin["funcion"] = "login";
             var formData = lgn.toFormData(lgn.admin);
-            console.log("Login es: ", lgn);
-            console.log("Admin es: ", lgn.admin);
-            console.log(formData);
-            axios.post("http://app-env.mufuh4vug6.sa-east-1.elasticbeanstalk.com/controladores/funciones.controlador.php", formData)
+            axios.post("./controladores/funciones.controlador.php", formData)
             .then(function(response){
-                console.log(response.data)
-                console.log(response.data.admin)    
                 if (response.data.admin.length == 0){
                     lgn.showAlert = true;
                 }else{
@@ -28,7 +23,7 @@ const lgn = new Vue ({
                     sessionStorage.setItem('acceso',true);
                     sessionStorage.setItem('code',"zVp6m;K-@/-9y4^/");
                     window.location.replace("./index.html");
-                }
+               }
             });
         },
 
