@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Mi municipio</title> <!-- texto en la pestaña -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+        crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ 
+     
+        <style type="text/css">
+            #overlay {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                background: rgba(0, 0, 0, 0.6);
+            }
+        </style>
+         
+    </head>
+<body ng-controller="testCtrl" class="bg-secondary">
+    <div id="superadmin" class="container " >
+        <div v-if="code == rCode">
+            
+            <div class="alert bg-dark w-100 d-flex justify-content-center" role="alert">SUPER ADMIN</div>
+
+            <div>
+                <h1 class="text-center">MUNICIPALIDADES</h1>
+                <div class="mb-2">
+                    <button type="button" class="btn btn-success w-100 " 
+                    @click="showAddModal=true">Agregar municipio</button>
+                </div>
+
+                <table class="table table-light table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID municipalidad</th>
+                            <th scope="col">Numero de provincia</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cantidad de empleados</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="user in info">
+                        <tr >
+                            <td>{{user.id_municipalidad}}</td>
+                            <td>{{user.n_provincia}}</td>
+                            <td>{{user.nombre}}</td>
+                            <td>{{user.n_empleados}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info" @click="showEditModal=true; selectUser(user)">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button type="button" class="btn btn-danger" @click="showDeleteModal=true; selectUser(user)">
+                                    <i class="material-icons">delete_forever</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div v-else class="p-4">                
+            <div class="alert alert-primary w-100 d-flex justify-content-center" role="alert">
+                <div >
+                    <div class="row">
+                      <div class="col"><h2>Por favor inicie sesion</h2></div>
+                      <div class="w-100"></div>
+                      <div class="col "><a href="login.html">[Iniciar sesion]</a></div>
+                    </div>
+                  </div>  
+            </div>
+        </div>
+
+        <div class="card-footer text-muted mt-2 bg-light">
+            <p class="text-center">En desarrollo - No Somos Cavernicolas Team ©</p> 
+        </div>
+
+    </div>
+
+    <script src="js/gestion-municipios.js"></script>
+
+</body>
+</html>

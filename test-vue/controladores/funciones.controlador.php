@@ -1,4 +1,5 @@
 <?php
+
 require_once "formularios.controlador.php";
 require_once "../modelos/formularios.modelo.php";
 
@@ -153,6 +154,35 @@ if ($funcion == "login"){
     $data = array("usuario" => $_POST['user'],
                   "password" => $_POST['pass']);
     $response['admin'] = ControladorFormularios::ctrAdmin($tabla, $data);
+    header("Content-type: application/json");
+    echo json_encode($response);
+}
+
+if ($funcion == "getMuni"){
+    $tabla = "municipalidades";
+    $users = array();
+    $users = ControladorFormularios::ctrlSelect($tabla,null,null);
+    $response['users'] = $users;
+    header("Content-type: application/json");
+    echo json_encode($response);
+}
+
+if ($funcion == "getSaldo"){
+    $dni = $_POST['dni'];
+    $tabla = "empleados";
+    $item = "dni";
+    $users = array();
+    $users = ControladorFormularios::ctrlSaldo($tabla,$item,$dni);
+    $response['users'] = $users;
+    header("Content-type: application/json");
+    echo json_encode($response);
+}
+
+if ($funcion == "compra"){
+    $datos = array("nTarjeta" => $_POST['nTarjeta'],
+                   "pinTarjeta" => $_POST['pinTarjeta'],
+                   "monto" => $_POST['monto']);
+    $response['result'] = ControladorFormularios::ctrlMonto($datos);
     header("Content-type: application/json");
     echo json_encode($response);
 }

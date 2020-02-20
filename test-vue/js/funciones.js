@@ -25,6 +25,7 @@ const app = new Vue({
     total: 0,
     code: "zVp6m;K-@/-9y4^/",
     rCode: "",
+    transaccion: {nTarjeta:"", pinTarjeta:"", monto:"", funcion:""},
     //empleado success
     toast: {on: false, code: `<div id="toast" class="toast bg-success " role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
               <div class="toast-header bg-success">
@@ -104,7 +105,7 @@ const app = new Vue({
       app.tarea.funcion = "getEmp";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("http://54.203.96.189/controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;
@@ -121,7 +122,7 @@ const app = new Vue({
       app.tarea.funcion = "getProv";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;
@@ -138,7 +139,7 @@ const app = new Vue({
       app.tarea.funcion = "getTran";
       app.tarea['municipio'] = sessionStorage.getItem('idMunicipio');
       var formData = app.toFormData(app.tarea);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.tarea = {funcion:""};
         app.info = response.data.users;
@@ -148,7 +149,7 @@ const app = new Vue({
     addEmpleado: function(){
       app.nuevoEmp["funcion"]= "addEmp";
       var formData = app.toFormData(app.nuevoEmp);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.nuevoEmp = {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:"", funcion:"", muni: sessionStorage.getItem('idMunicipio')};
         if(response.data.error){
@@ -169,7 +170,7 @@ const app = new Vue({
     addProveedor: function(){
       app.nuevoPro["funcion"] = "addPro";
       var formData = app.toFormData(app.nuevoPro);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.nuevoPro = {nombre:"", direccion:"", categoria:"", funcion:"", muni: sessionStorage.getItem('idMunicipio')};
         if(response.data.error){
@@ -189,7 +190,7 @@ const app = new Vue({
 
     edit: function(){
       var formData = app.toFormData(app.currentUser);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         
         if(response.data.error){
@@ -220,7 +221,7 @@ const app = new Vue({
     deleteEmp: function(){
       app.currentUser["funcion"] = "borrarEmp"
       var formData = app.toFormData(app.currentUser);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         if(response.data.error){
           app.errorMsg = response.data.message;
@@ -248,7 +249,7 @@ const app = new Vue({
     deleteProv: function(){
       app.currentUser["funcion"] = "borrarProv"
       var formData = app.toFormData(app.currentUser);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.currentUser = {};
         if(response.data.error){
@@ -273,6 +274,27 @@ const app = new Vue({
       });
     },
 
+    saldo: function(){
+
+      app.tarea.funcion = "getSaldo";
+      app.tarea['dni'] = "30256789"; //esteban quito. 7500
+      var formData = app.toFormData(app.tarea);
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      .then(function(response){
+        app.tarea = {funcion:""};
+        app.info = response.data.users[0]; 
+      });
+    },
+
+    compra: function(){
+      app.transaccion.funcion = "compra";
+      var formData = app.toFormData(app.transaccion);
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
+      .then(function(response){
+        console.log(response);
+      });
+    },
+
     selectUser: function(user){
       app.currentUser = user;
     },
@@ -288,7 +310,7 @@ const app = new Vue({
     calcular: function(){
       app.currentUser['funcion'] = "calcular";
       var formData = app.toFormData(app.currentUser);
-      axios.post("./controladores/funciones.controlador.php", formData)
+      axios.post("http://localhost/muni/controladores/funciones.controlador.php", formData)
       .then(function(response){
         app.total = response.data.result[0].total
         app.showTotal = true;
@@ -298,7 +320,7 @@ const app = new Vue({
 
     salir: function(){
       sessionStorage.clear();
-      window.location.replace("./login.html");
+      window.location.replace("http://localhost/muni/login.html");
     }
   },
 

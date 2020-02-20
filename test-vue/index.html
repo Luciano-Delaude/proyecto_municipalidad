@@ -132,7 +132,13 @@
                 </div>
     
                 <img v-if="bob" src="assets/bob.png" alt="bob" class="rounded mx-auto d-block">
-    
+                <!-- <button type="button" class="btn btn-success"
+                        @click="saldo();">
+                        <i class="material-icons">attach_money</i>
+                        <p class="text-center">SALDO</p>
+                </button>
+                <h2>{{info.dni}}-{{info.n_tarjeta}}-{{info.nombre}}-{{info.saldo}}</h2> -->
+
                 <div v-if="pagEmpleados">
                     <h1 class="text-center">PAGINA DE EMPLEADOS</h1>
                     <div class="mb-2">
@@ -299,6 +305,28 @@
                         </tbody>
     
                     </table>
+
+                    <h3>Nueva transaccion</h3>
+                    <input type="text" name="nTarjeta" 
+                    class="form-control" 
+                    placeholder="numero de tarjeta" 
+                    v-model="transaccion.nTarjeta">
+
+                    <input type="text" name="pinTarjeta" 
+                    class="form-control" 
+                    placeholder="PIN" 
+                    v-model="transaccion.pinTarjeta">
+
+                    <input type="text" name="monto" 
+                    class="form-control" 
+                    placeholder="Monto" 
+                    v-model="transaccion.monto">
+                    <button type="button" class="btn btn-success"
+                        @click="compra();">
+                        <i class="material-icons">attach_money</i>
+                        <p class="text-center">Comprar</p>
+                    </button>
+
                 </div>
     
                 <div v-if="pagProveedores">
@@ -523,7 +551,8 @@
 
             <div class="card-footer text-muted mt-2 bg-light">
                 <p class="text-center">En desarrollo - No Somos Cavernicolas Team ©</p> 
-              </div>
+            </div>
+            
         </div>
         
        
