@@ -168,11 +168,16 @@ if ($funcion == "getMuni"){
 }
 
 if ($funcion == "getSaldo"){
-    $dni = $_POST['dni'];
     $tabla = "empleados";
-    $item = "dni";
+    $items = array();
+    $items['dni'] = "dni";
+    $items['pinTarjeta'] = "pin_tarjeta";
+    $valores = array();
+    $valores = array();
+    $valores['dni'] = $_POST['dni'];
+    $valores['pin'] = $_POST['pinTarjeta'];
     $users = array();
-    $users = ControladorFormularios::ctrlSaldo($tabla,$item,$dni);
+    $users = ControladorFormularios::ctrlSaldo($tabla,$items,$valores);
     $response['users'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);

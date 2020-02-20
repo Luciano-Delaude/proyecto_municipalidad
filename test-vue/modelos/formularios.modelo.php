@@ -154,6 +154,18 @@ class ModeloFormularios{
     
     }
 
+    static public function mdlSaldo($tabla,$items,$valores){
+        $dni = $items['dni'];
+        $pin = $items['pinTarjeta'];
+        $stmt = Conexion::connect()->prepare("SELECT * FROM $tabla WHERE $dni=:valor1 AND $pin=:valor2");
+        $stmt -> bindParam(":valor1",$valores['dni'],PDO::PARAM_STR);
+        $stmt -> bindParam(":valor2",$valores['pin'],PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(); 
+        $stmt = null;
+    
+    }
+
     static public function mdlUpdate($tabla,$datos){
 
         $query_array = array();

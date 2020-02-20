@@ -52,6 +52,12 @@ class ControladorFormularios{
         return $result_prove;
     }
 
+    static public function ctrlSaldo($tabla,$items,$valores){
+
+        $result_prove = ModeloFormularios::mdlSaldo($tabla,$items,$valores);
+        return $result_prove;
+    }
+
     static public function ctrlUpdate($tabla,$data){
         /* foreach ($data as $key => $value) {
             $data[$key] = $_POST[$key];
