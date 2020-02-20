@@ -1,0 +1,8 @@
+{
+  "name": "mi-municipio-app",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
