@@ -11,26 +11,25 @@ import { ToastController } from '@ionic/angular';
 })
 
 export class Tab1Page {
-  tarea: tarea = {funcion: '', dni: ''};
+  tarea: tarea = {funcion: '', nTarjeta: '', pinTarjeta: ''};
   empleado: empleado = {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:0, muni:0};
   showList: boolean = false;
   constructor(
     private http: HttpClient,
     public toastController: ToastController
   ) {}
-//65489256
+//65489256 678
   consultarSaldo(){
-    if(this.tarea.dni == '') this.toast_dniVacio();
+    if(this.tarea.nTarjeta == '' || this.tarea.pinTarjeta == '') this.toast_campoVacio();
     else{
       this.tarea.funcion = 'getSaldo';
       var formData = new FormData();
       for (var key in this.tarea){
         formData.append(key, this.tarea[key]);
       }
-      console.log('getSaldo');
       this.http.post('http://54.203.96.189/controladores/funciones.controlador.php',formData)
       .subscribe((res: any) => {
-        if(res.users[0] == null) console.log('no existe')
+        if(res.users[0] == null) this.toast_datosInvalidos();
         else{
           this.empleado = res.users[0];
           console.log(res.users[0]);
@@ -43,9 +42,16 @@ export class Tab1Page {
     }
   }
 
-  async toast_dniVacio() {
+  async toast_campoVacio() {
     const toast = await this.toastController.create({
-      message: 'Debe ingresar un DNI',
+      message: 'Debe completar ambos campos antes de enviar la consulta.',
+      duration: 2000
+    });
+    toast.present();
+  }
+  async toast_datosInvalidos() {
+    const toast = await this.toastController.create({
+      message: 'Datos inválidos. Por favor, revise sus datos.', 
       duration: 2000
     });
     toast.present();

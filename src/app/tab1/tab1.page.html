@@ -12,14 +12,17 @@
       <ion-title size="large">Consulta de saldo</ion-title>
     </ion-toolbar>
   </ion-header>
-  
 
 <ion-grid>
   <ion-row class="ion-align-items-center">
     <ion-col>
       <ion-item>
-        <ion-label position="floating">Ingrese su DNI</ion-label> <!-- Que solo pueda ingresar numeros -->
-        <ion-input clearInput [(ngModel)]="tarea.dni" ng-required="true"></ion-input>
+        <ion-label position="floating">Ingrese su número de tarjeta</ion-label>
+        <ion-input type="tel" clearInput [(ngModel)]="tarea.nTarjeta"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Ingrese el PIN de su tarjeta</ion-label>
+        <ion-input clearInput [(ngModel)]="tarea.pinTarjeta"></ion-input>
       </ion-item>
     </ion-col>
   </ion-row>
@@ -32,15 +35,15 @@
     <ion-item>
       <ion-label>DNI</ion-label>
       <ion-label>{{ empleado.dni }}</ion-label>
-    </ion-item>    
+    </ion-item>
     <ion-item>
       <ion-label>Nombre</ion-label>
       <ion-label>{{ empleado.nombre }}</ion-label>
-    </ion-item>    
+    </ion-item>
     <ion-item>
       <ion-label>Saldo</ion-label>
       <ion-label>{{ empleado.saldo }}</ion-label>
-    </ion-item>    
+    </ion-item>
   </ion-list>
 </ion-grid>
 </ion-content>
