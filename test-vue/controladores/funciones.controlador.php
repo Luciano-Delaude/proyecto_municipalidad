@@ -170,14 +170,30 @@ if ($funcion == "getMuni"){
 if ($funcion == "getSaldo"){
     $tabla = "empleados";
     $items = array();
-    $items['dni'] = "dni";
+    $items['nTarjeta'] = "n_tarjeta";
     $items['pinTarjeta'] = "pin_tarjeta";
     $valores = array();
     $valores = array();
-    $valores['dni'] = $_POST['dni'];
+    $valores['nTarjeta'] = $_POST['nTarjeta'];
     $valores['pin'] = $_POST['pinTarjeta'];
     $users = array();
     $users = ControladorFormularios::ctrlSaldo($tabla,$items,$valores);
+    $response['users'] = $users;
+    header("Content-type: application/json");
+    echo json_encode($response);
+}
+
+if ($funcion == "getTranEmpleado"){
+    $tabla = "transacciones";
+    $items = array();
+    $items['nTarjeta'] = "n_tarjeta";
+    $items['pinTarjeta'] = "pin_tarjeta";
+    $valores = array();
+    $valores = array();
+    $valores['nTarjeta'] = $_POST['nTarjeta'];
+    $valores['pin'] = $_POST['pinTarjeta'];
+    $users = array();
+    $users = ControladorFormularios::ctrlTranEmpleado($tabla,$items,$valores);
     $response['users'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);

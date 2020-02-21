@@ -155,15 +155,33 @@ class ModeloFormularios{
     }
 
     static public function mdlSaldo($tabla,$items,$valores){
-        $dni = $items['dni'];
+        $dni = $items['nTarjeta'];
         $pin = $items['pinTarjeta'];
         $stmt = Conexion::connect()->prepare("SELECT * FROM $tabla WHERE $dni=:valor1 AND $pin=:valor2");
-        $stmt -> bindParam(":valor1",$valores['dni'],PDO::PARAM_STR);
+        $stmt -> bindParam(":valor1",$valores['nTarjeta'],PDO::PARAM_STR);
         $stmt -> bindParam(":valor2",$valores['pin'],PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(); 
         $stmt = null;
     
+    }
+
+    static public function mdlTranEmpleado($tabla,$items,$valores){
+        $nTarjeta = $items['nTarjeta'];
+        $pin = $items['pinTarjeta'];
+        $stmt = Conexion::connect()->prepare("SELECT $tabla.`n_tarjeta`,
+                                                     `proveedores`.`nombre`,
+                                                     $tabla.`n_transaccion`,
+                                                     $tabla.`monto`,
+                                                     $tabla.`fecha`
+                                                     FROM $tabla INNER JOIN `proveedores` 
+                                                     ON $tabla.`id_proveedor`=`proveedores`.`id_proveedor` 
+                                                     WHERE n_tarjeta = :valor 
+                                                     ORDER BY $tabla.`fecha` ASC ");
+        $stmt -> bindParam(":valor",$valores['nTarjeta'],PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(); 
+        $stmt = null;
     }
 
     static public function mdlUpdate($tabla,$datos){
