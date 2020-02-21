@@ -1,7 +1,7 @@
-export interface transacciones {
+export interface transaccion {
     nTransaccion: string; 
     nTarjeta: string;
     nombre: string;
     monto: string;
-    fecha: Date;
+    fecha: string;
   }
