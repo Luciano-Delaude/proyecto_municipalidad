@@ -1,4 +1,5 @@
 export interface tarea {
-    funcion: string;
-    dni: string;
-  }
+  funcion: string;
+  nTarjeta: string;
+  pinTarjeta: string;
+}
