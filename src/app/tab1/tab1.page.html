@@ -18,19 +18,19 @@
     <ion-col>
       <ion-item>
         <ion-label position="floating">Ingrese número de tarjeta</ion-label>
-        <ion-input type="tel" clearInput [(ngModel)]="tarea.nTarjeta"></ion-input>
+        <ion-input type="number" clearInput [(ngModel)]="tarea.nTarjeta"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ingrese número de proveedor</ion-label>
-        <ion-input clearInput [(ngModel)]="tarea.idProveedor"></ion-input>
+        <ion-input type="number" clearInput [(ngModel)]="tarea.idProveedor"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ingrese el número de la factura</ion-label>
-        <ion-input clearInput [(ngModel)]="tarea.nTransaccion"></ion-input>
+        <ion-input type="number" clearInput [(ngModel)]="tarea.nTransaccion"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ingrese el monto</ion-label>
-        <ion-input clearInput [(ngModel)]="tarea.monto"></ion-input>
+        <ion-input type="number" clearInput [(ngModel)]="tarea.monto"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label position="floating">Ingrese el PIN de la tarjeta</ion-label>

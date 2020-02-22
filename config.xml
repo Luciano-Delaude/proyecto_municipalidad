@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="mimunicipio.nsc.com" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MiMunicipio Empleados</name>
-    <description>Mi Municipio App. Version Empleados</description>
+<widget id="mimunicipio-prov.nsc.com" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>MiMunicipio Proveedores</name>
+    <description>Mi Municipio App. Version Proveedores</description>
     <author email="sgoanzorena@gmail.com">NSC Team</author>
     <content src="index.html" />
     <access origin="*" />
