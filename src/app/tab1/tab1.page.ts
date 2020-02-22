@@ -32,13 +32,11 @@ export class Tab1Page {
         formData.append(key, this.tarea[key]);
       }
       this.http.post('http://54.203.96.189/controladores/funciones.controlador.php',formData)
-      .subscribe((res: string) => {
+      .subscribe((res: any) => {
         if(res == null) this.toast_datosInvalidos(); // checkear como viene la variable booleana
         else{
-          this.showSuccess = (res == 'ok');
-          setTimeout(()=>{
-            this.showSuccess = false;
-          }, 10000);
+          console.log(res);
+          if (res.result == 'ok') this.toast_success();
         }
       });
     }
@@ -54,6 +52,13 @@ export class Tab1Page {
   async toast_datosInvalidos() {
     const toast = await this.toastController.create({
       message: 'Datos inválidos. Por favor, revise sus datos.', 
+      duration: 2000
+    });
+    toast.present();
+  }
+  async toast_success() {
+    const toast = await this.toastController.create({
+      message: 'Compra generada satisfactoriamente.', 
       duration: 2000
     });
     toast.present();
