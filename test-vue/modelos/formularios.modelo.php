@@ -177,7 +177,7 @@ class ModeloFormularios{
                                                      FROM $tabla INNER JOIN `proveedores` 
                                                      ON $tabla.`id_proveedor`=`proveedores`.`id_proveedor` 
                                                      WHERE n_tarjeta = :valor 
-                                                     ORDER BY $tabla.`fecha` ASC ");
+                                                     ORDER BY $tabla.`fecha` DESC ");
         $stmt -> bindParam(":valor",$valores['nTarjeta'],PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(); 
@@ -275,17 +275,16 @@ class ModeloFormularios{
     }
 
     static public function rstMonto($data){
-        $n_tarjeta = $data['nTarjeta'];
-        $pin_tarjeta = $data['pinTarjeta'];
+        $n_tarjeta = $data['n_tarjeta'];
         $monto = $data['monto'];
         $stmt = Conexion::connect() -> prepare("UPDATE empleados SET saldo = saldo - $monto 
-                                                WHERE n_tarjeta = :n_tarjeta AND pin_tarjeta = :pin_tarjeta");
+                                                WHERE n_tarjeta = :n_tarjeta");
         $stmt ->bindParam(":n_tarjeta",$n_tarjeta,PDO::PARAM_STR);
-        $stmt ->bindParam(":pin_tarjeta",$pin_tarjeta,PDO::PARAM_INT);
         $stmt->execute();
         if($stmt->execute()){
+            $result = ModeloFormularios::mdlTransacciones("transacciones",$data);
             $stmt = null;
-            return "ok";
+            return $result;
         }
         else{
             $stmt = null;

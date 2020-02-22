@@ -199,10 +199,23 @@ if ($funcion == "getTranEmpleado"){
     echo json_encode($response);
 }
 
+if ($funcion == "getTranProveedores"){
+    $tabla = "transacciones";
+    $items = array();
+    $items['idProveedor'] = "id_proveedor";
+    $valores = array();
+    $valores['idProveedor'] = $_POST['id_proveedor'];
+    $users = array();
+    $users = ControladorFormularios::ctrlTranEmpleado($tabla,$items,$valores);
+    $response['users'] = $users;
+    header("Content-type: application/json");
+    echo json_encode($response);
+}
 if ($funcion == "compra"){
-    $datos = array("nTarjeta" => $_POST['nTarjeta'],
-                   "pinTarjeta" => $_POST['pinTarjeta'],
-                   "monto" => $_POST['monto']);
+    $datos = array("n_tarjeta" => $_POST['nTarjeta'],
+                   "id_proveedor" => $_POST['idProveedor'],
+                   "monto" => $_POST['monto'],
+                    "n_transaccion" => $_POST['nTransaccion']);
     $response['result'] = ControladorFormularios::ctrlMonto($datos);
     header("Content-type: application/json");
     echo json_encode($response);
