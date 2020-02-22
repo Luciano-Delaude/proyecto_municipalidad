@@ -22,18 +22,18 @@ export class Tab2Page {
   ) {}
 
   getTransacciones(){
-    if(this.tarea.nTarjeta == '' || this.tarea.pinTarjeta == '') this.toast_campoVacio();
+    if(this.tarea.idProveedor == '') this.toast_campoVacio();
     else{
-      this.tarea.funcion = 'getTranEmpleado';
+      this.tarea.funcion = 'getTranProveedor';
       var formData = new FormData();
       for (var key in this.tarea){
         formData.append(key, this.tarea[key]);
       }
       this.http.post('http://54.203.96.189/controladores/funciones.controlador.php',formData)
       .subscribe((res: any) => {
-        if(res.users[0] == null) this.toast_datosInvalidos();
+        if(res.data == null) this.toast_datosInvalidos();
         else{
-          this.transacciones = res.users;
+          this.transacciones = res.data;
           this.showList = true;
         }
       });

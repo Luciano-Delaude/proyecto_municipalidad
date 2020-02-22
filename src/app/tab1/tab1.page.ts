@@ -21,18 +21,21 @@ export class Tab1Page {
 //65489256 678
 //2001013565489789
   generarTransaccion(){
-    if(this.tarea.nTarjeta == '' || this.tarea.pinTarjeta == '') this.toast_campoVacio();
+    if( this.tarea.nTarjeta == '' || 
+        this.tarea.idProveedor == '' ||
+        this.tarea.nTransaccion == '' ||
+        this.tarea.monto == '') this.toast_campoVacio();
     else{
-      this.tarea.funcion = '';
+      this.tarea.funcion = 'compra';
       var formData = new FormData();
       for (var key in this.tarea){
         formData.append(key, this.tarea[key]);
       }
       this.http.post('http://54.203.96.189/controladores/funciones.controlador.php',formData)
-      .subscribe((res: any) => {
-        if(res == null) this.toast_datosInvalidos();
+      .subscribe((res: string) => {
+        if(res == null) this.toast_datosInvalidos(); // checkear como viene la variable booleana
         else{
-          this.showSuccess = res; // checkear como viene la variable booleana
+          this.showSuccess = (res == 'ok');
           setTimeout(()=>{
             this.showSuccess = false;
           }, 10000);
@@ -43,7 +46,7 @@ export class Tab1Page {
 
   async toast_campoVacio() {
     const toast = await this.toastController.create({
-      message: 'Debe completar ambos campos antes de enviar la consulta.',
+      message: 'Debe completar todos los campos para continuar.',
       duration: 2000
     });
     toast.present();
