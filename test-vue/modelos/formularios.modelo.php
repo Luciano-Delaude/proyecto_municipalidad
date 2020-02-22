@@ -98,7 +98,7 @@ class ModeloFormularios{
 
         
             if($stmt->execute()){
-                return "ok";
+                return True;
                 echo '<script>
                 if(window.history.replaceState){
     
@@ -108,6 +108,7 @@ class ModeloFormularios{
                 echo '<div class="alert alert-success">La municipalidad fue registrada correctamente</div>';
                 
             }else {
+                return False;
                 echo "El error es: <br>";
                 print_r(Conexion::connect()->errorInfo());
                 print_r(Conexion::connect()->errorCode());
@@ -179,6 +180,20 @@ class ModeloFormularios{
                                                      WHERE n_tarjeta = :valor 
                                                      ORDER BY $tabla.`fecha` DESC ");
         $stmt -> bindParam(":valor",$valores['nTarjeta'],PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(); 
+        $stmt = null;
+    }
+
+    static public function mdlTranProveedor($tabla,$items,$valores){
+        $idProveedor = $items['idProveedor'];
+        $stmt = Conexion::connect()->prepare("SELECT $tabla.`n_tarjeta`,
+                                                     $tabla.`n_transaccion`,
+                                                     $tabla.`monto`,
+                                                     $tabla.`fecha`
+                                                     FROM $tabla WHERE id_proveedor = :valor 
+                                                     ORDER BY $tabla.`fecha` DESC ");
+        $stmt -> bindParam(":valor",$valores['idProveedor'],PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(); 
         $stmt = null;

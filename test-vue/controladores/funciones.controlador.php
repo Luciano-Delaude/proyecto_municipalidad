@@ -199,14 +199,14 @@ if ($funcion == "getTranEmpleado"){
     echo json_encode($response);
 }
 
-if ($funcion == "getTranProveedores"){
+if ($funcion == "getTranProveedor"){
     $tabla = "transacciones";
     $items = array();
     $items['idProveedor'] = "id_proveedor";
     $valores = array();
     $valores['idProveedor'] = $_POST['id_proveedor'];
     $users = array();
-    $users = ControladorFormularios::ctrlTranEmpleado($tabla,$items,$valores);
+    $users = ControladorFormularios::ctrlTranProveedor($tabla,$items,$valores);
     $response['users'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);
