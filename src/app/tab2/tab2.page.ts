@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tarea } from '../tarea'
-import { empleado } from '../empleado'
+import { proveedor } from '../proveedor'
+import { transaccion } from '../transaccion'
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -10,10 +11,10 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  tarea: tarea = {funcion: '', nTarjeta: '', pinTarjeta: ''};
-  empleado: empleado = {dni: '', nTarjeta: '', pinTarjeta: '', nombre: '', saldo:0, muni:0};
+  tarea: tarea = {funcion: '', nTarjeta: '', pinTarjeta: '', idProveedor: '', nTransaccion: '', monto: ''};
+  proveedor: proveedor = {idProveedor:'', idMunicipalidad:'', nombre:'', direccion:'', categoria: 0};
   transacciones: [];
-  transaccion: {nTransaccion: '', nTarjeta: '', nombre: '', monto: '', fecha: ''};
+  transaccion: transaccion = {nTransaccion: '', nTarjeta: '', nombre: '', monto: '', fecha: ''};
   showList: boolean = false;
   constructor(
     private http: HttpClient,
@@ -32,12 +33,8 @@ export class Tab2Page {
       .subscribe((res: any) => {
         if(res.users[0] == null) this.toast_datosInvalidos();
         else{
-          this.transacciones = res.users[0];
-          console.log(res.users[0]);
+          this.transacciones = res.users;
           this.showList = true;
-          // setTimeout(()=>{
-          //   this.showList = false;
-          // }, 10000);
         }
       });
     }

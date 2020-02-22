@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tarea } from '../tarea'
-import { empleado } from '../empleado'
+import { proveedor } from '../proveedor'
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -11,31 +11,30 @@ import { ToastController } from '@ionic/angular';
 })
 
 export class Tab1Page {
-  tarea: tarea = {funcion: '', nTarjeta: '', pinTarjeta: ''};
-  empleado: empleado = {dni:"", nTarjeta:"", pinTarjeta:"", nombre:"", saldo:0, muni:0};
-  showList: boolean = false;
+  tarea: tarea = {funcion: '', nTarjeta: '', pinTarjeta: '', idProveedor: '', nTransaccion: '', monto: ''};
+  proveedor: proveedor = {idProveedor:'', idMunicipalidad:'', nombre:'', direccion:'', categoria: 0};
+  showSuccess: boolean = false;
   constructor(
     private http: HttpClient,
     public toastController: ToastController
   ) {}
 //65489256 678
-  consultarSaldo(){
+//2001013565489789
+  generarTransaccion(){
     if(this.tarea.nTarjeta == '' || this.tarea.pinTarjeta == '') this.toast_campoVacio();
     else{
-      this.tarea.funcion = 'getSaldo';
+      this.tarea.funcion = '';
       var formData = new FormData();
       for (var key in this.tarea){
         formData.append(key, this.tarea[key]);
       }
       this.http.post('http://54.203.96.189/controladores/funciones.controlador.php',formData)
       .subscribe((res: any) => {
-        if(res.users[0] == null) this.toast_datosInvalidos();
+        if(res == null) this.toast_datosInvalidos();
         else{
-          this.empleado = res.users[0];
-          console.log(res.users[0]);
-          this.showList = true;
+          this.showSuccess = res; // checkear como viene la variable booleana
           setTimeout(()=>{
-            this.showList = false;
+            this.showSuccess = false;
           }, 10000);
         }
       });

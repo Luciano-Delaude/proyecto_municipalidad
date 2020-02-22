@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Consulta de saldo
+      Generación de compra
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Consulta de saldo</ion-title>
+      <ion-title size="large">Generación de compra</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -17,33 +17,33 @@
   <ion-row class="ion-align-items-center">
     <ion-col>
       <ion-item>
-        <ion-label position="floating">Ingrese su número de tarjeta</ion-label>
+        <ion-label position="floating">Ingrese número de tarjeta</ion-label>
         <ion-input type="tel" clearInput [(ngModel)]="tarea.nTarjeta"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Ingrese el PIN de su tarjeta</ion-label>
-        <ion-input clearInput [(ngModel)]="tarea.pinTarjeta"></ion-input>
+        <ion-label position="floating">Ingrese número de proveedor</ion-label>
+        <ion-input clearInput [(ngModel)]="tarea.idProveedor"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label position="floating">Ingrese el número de la factura</ion-label>
+        <ion-input clearInput [(ngModel)]="tarea.nTransaccion"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Ingrese el monto</ion-label>
+        <ion-input clearInput [(ngModel)]="tarea.monto"></ion-input>
+      </ion-item>
+      <!-- <ion-item>
+        <ion-label position="floating">Ingrese el PIN de la tarjeta</ion-label>
+        <ion-input clearInput [(ngModel)]="tarea.pinTarjeta"></ion-input>
+      </ion-item> -->
     </ion-col>
   </ion-row>
   <ion-row class="ion-align-items-center">
     <ion-col>
-      <ion-button (click)="consultarSaldo()">Consultar</ion-button>
+      <ion-button (click)="generarTransaccion()">Continuar</ion-button>
     </ion-col>
   </ion-row>
-  <ion-list *ngIf="showList">
-    <ion-item>
-      <ion-label>DNI</ion-label>
-      <ion-label>{{ empleado.dni }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Nombre</ion-label>
-      <ion-label>{{ empleado.nombre }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Saldo</ion-label>
-      <ion-label>{{ empleado.saldo }}</ion-label>
-    </ion-item>
+  <ion-list *ngIf="showSuccess">
   </ion-list>
 </ion-grid>
 </ion-content>
