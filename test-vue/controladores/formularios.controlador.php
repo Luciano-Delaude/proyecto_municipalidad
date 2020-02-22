@@ -63,10 +63,10 @@ class ControladorFormularios{
         $result_prove = ModeloFormularios::mdlTranEmpleado($tabla,$items,$valores);
         return $result_prove;
     }
-    static public function ctrlTranProveedor($tabla,$items,$valores){
+    static public function ctrlTranProveedor($tabla,$valor){
 
-        $result = ModeloFormularios::mdlTranProveedor($tabla,$items,$valores);
-        return $result;
+        $result_prove = ModeloFormularios::mdlTranProveedor($tabla,$valor);
+        return $result_prove;
     }
 
     static public function ctrlUpdate($tabla,$data){
