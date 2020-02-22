@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tarea } from '../tarea'
 import { empleado } from '../empleado'
 import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -16,7 +17,8 @@ export class Tab1Page {
   showList: boolean = false;
   constructor(
     private http: HttpClient,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public alertController: AlertController,
   ) {}
 //65489256 678
   consultarSaldo(){
@@ -55,5 +57,34 @@ export class Tab1Page {
       duration: 2000
     });
     toast.present();
+  }
+
+  backButtonEvent() {
+    document.addEventListener("backbutton", () => {        
+      this.presentAlertConfirm();       
+      // navigator['app'].exitApp(); // work for ionic 4      
+    });
+  }
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      // header: 'Confirm!',
+      message: 'Are you sure you want to exit the app?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Close App',
+          handler: () => {
+            navigator['app'].exitApp();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }
