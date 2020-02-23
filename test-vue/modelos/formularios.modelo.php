@@ -98,15 +98,7 @@ class ModeloFormularios{
 
         
             if($stmt->execute()){
-                return "ok";
-                echo '<script>
-                if(window.history.replaceState){
-    
-                    window.history.replaceState(null,null,window.location.href);
-                }			
-                </script>';
-                echo '<div class="alert alert-success">La municipalidad fue registrada correctamente</div>';
-                
+                return "ok";                
             }else {
                 echo "El error es: <br>";
                 print_r(Conexion::connect()->errorInfo());
@@ -288,22 +280,34 @@ class ModeloFormularios{
     }
 
     static public function rstMonto($data){
-        $n_tarjeta = $data['n_tarjeta'];
-        $monto = $data['monto'];
-        $stmt = Conexion::connect() -> prepare("UPDATE empleados SET saldo = saldo - $monto 
-                                                WHERE n_tarjeta = :n_tarjeta");
-        $stmt ->bindParam(":n_tarjeta",$n_tarjeta,PDO::PARAM_STR);
-        $stmt->execute();
-        if($stmt->execute()){
-            $result = ModeloFormularios::mdlTransacciones("transacciones",$data);
-            $stmt = null;
-            return $result;
+        $enun = Conexion::connect() ->prepare("SELECT n_transaccion FROM transacciones WHERE n_transaccion = :n_transaccion");
+        $enun ->bindParam(":n_transaccion",$data["n_transaccion"],PDO::PARAM_INT);
+        $enun ->execute();
+        if($enun->rowCount()>0){
+            return "ntransaccioninvalido";
         }
         else{
-            $stmt = null;
-            return Conexion::connect()->errorInfo();
+            $n_tarjeta = $data['n_tarjeta'];
+            $monto = $data['monto'];
+            $stmt = Conexion::connect() -> prepare("UPDATE empleados SET saldo = saldo - $monto 
+                                                    WHERE n_tarjeta = :n_tarjeta AND saldo >= $monto");
+            $stmt ->bindParam(":n_tarjeta",$n_tarjeta,PDO::PARAM_STR);
+              $stmt->execute();
+    
+            if($stmt->rowCount()>0){
+    
+                $result = ModeloFormularios::mdlTransacciones("transacciones",$data);
+                $stmt = null;
+                return $result;
+            }
+            else{
+                $stmt = null;
+                return "saldoinsuficiente";
+            }
         }
+
     }
+
 }
 
 

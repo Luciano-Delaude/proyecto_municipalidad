@@ -204,7 +204,7 @@ if ($funcion == "getTranProveedor"){
     $valor = $_POST['idProveedor'];
     $users = array();
     $users = ControladorFormularios::ctrlTranProveedor($tabla,$valor);
-    $response['users'] = $users;
+    $response['data'] = $users;
     header("Content-type: application/json");
     echo json_encode($response);
 }
