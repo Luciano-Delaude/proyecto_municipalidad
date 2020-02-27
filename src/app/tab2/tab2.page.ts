@@ -40,6 +40,10 @@ export class Tab2Page {
     }
   }
 
+  async showModalTranEmp(tran){
+    
+  }
+
   async toast_campoVacio() {
     const toast = await this.toastController.create({
       message: 'Debe completar ambos campos antes de enviar la consulta.',

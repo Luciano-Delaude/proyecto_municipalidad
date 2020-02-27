@@ -1,0 +1,30 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-title>Detalles de la compra</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-list>
+    <ion-item>
+      <ion-label> Fecha </ion-label>
+      <ion-label class="ion-text-wrap"> {{ data.fecha }} </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label> Monto </ion-label>
+      <ion-label class="ion-text-wrap"> {{ data.monto }} </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label> Proveedor </ion-label>
+      <ion-label class="ion-text-wrap"> {{ data.nombre }} </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ion-text-wrap"> Número de Tarjeta </ion-label>
+      <ion-label> {{ data.n_tarjeta }} </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ion-text-wrap"> Número de transacción </ion-label>
+      <ion-label> {{ data.n_transaccion }} </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block" color="danger" fill="outline" (click)="dismissModal()">Cerrar</ion-button> 
+</ion-content>
