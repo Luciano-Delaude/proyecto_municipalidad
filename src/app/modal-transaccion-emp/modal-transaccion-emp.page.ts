@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-modal-transaccion-prov',
-  templateUrl: './modal-transaccion-prov.page.html',
-  styleUrls: ['./modal-transaccion-prov.page.scss'],
+  selector: 'app-modal-transaccion-emp',
+  templateUrl: './modal-transaccion-emp.page.html',
+  styleUrls: ['./modal-transaccion-emp.page.scss'],
 })
-export class ModalTransaccionProvPage implements OnInit {
+export class ModalTransaccionEmpPage implements OnInit {
 
   tranData = {
     'fecha':        '',

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ModalTransaccionProvPage } from './modal-transaccion-prov.page';
+import { ModalTransaccionEmpPage } from './modal-transaccion-emp.page';
 
-describe('ModalTransaccionProvPage', () => {
-  let component: ModalTransaccionProvPage;
-  let fixture: ComponentFixture<ModalTransaccionProvPage>;
+describe('ModalTransaccionEmpPage', () => {
+  let component: ModalTransaccionEmpPage;
+  let fixture: ComponentFixture<ModalTransaccionEmpPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalTransaccionProvPage ],
+      declarations: [ ModalTransaccionEmpPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalTransaccionProvPage);
+    fixture = TestBed.createComponent(ModalTransaccionEmpPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

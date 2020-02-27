@@ -34,7 +34,7 @@
   <!-- Cambiar lista a 1 transaccion por item (fecha y monto) que puedas entrar y ver mas detalles.
        Si son demasiados que puedas pasar de pagina o algo?? -->
   <ion-list *ngIf="showList">
-    <ion-item *ngFor="let tran of transacciones" (click)="showModalTranEmp(tran)">
+    <ion-item *ngFor="let tran of transacciones" button (click)="transaccionDetails(tran)">
       <ion-label> {{ tran.fecha }} </ion-label>
       <ion-label> {{ tran.monto }} </ion-label>
     </ion-item>

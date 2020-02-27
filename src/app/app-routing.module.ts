@@ -5,9 +5,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
-    path: 'modal-transaccion-prov',
-    loadChildren: () => import('./modal-transaccion-prov/modal-transaccion-prov.module').then( m => m.ModalTransaccionProvPageModule)
+  },
+  {
+    path: 'modal-transaccion-emp',
+    loadChildren: () => import('./modal-transaccion-emp/modal-transaccion-emp.module').then( m => m.ModalTransaccionEmpPageModule)
   }
 
 ];

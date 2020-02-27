@@ -4,6 +4,8 @@ import { tarea } from '../tarea'
 import { empleado } from '../empleado'
 import { transaccion } from '../transaccion'
 import { ToastController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { ModalTransaccionEmpPage } from '../modal-transaccion-emp/modal-transaccion-emp.page';
 
 @Component({
   selector: 'app-tab2',
@@ -18,7 +20,8 @@ export class Tab2Page {
   showList: boolean = false;
   constructor(
     private http: HttpClient,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public modalController: ModalController
   ) {}
 
   getTransacciones(){
@@ -40,8 +43,14 @@ export class Tab2Page {
     }
   }
 
-  async showModalTranEmp(tran){
-    
+  async transaccionDetails(tran) {
+    const modal = await this.modalController.create({
+      component: ModalTransaccionEmpPage,
+      componentProps: {
+        data: tran
+      }
+    })
+    await modal.present();
   }
 
   async toast_campoVacio() {
