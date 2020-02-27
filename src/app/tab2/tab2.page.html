@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
       Historial de compras
     </ion-title>
@@ -36,7 +36,8 @@
   <ion-list *ngIf="showList">
     <ion-item *ngFor="let tran of transacciones" button (click)="transaccionDetails(tran)">
       <ion-label> {{ tran.fecha }} </ion-label>
-      <ion-label> {{ tran.monto }} </ion-label>
+      <ion-icon slot="start" name="document-text-outline"></ion-icon>
+      <ion-text slot="end" color="danger"> -{{ tran.monto }} </ion-text>
     </ion-item>
   </ion-list>
   <!-- <ion-list *ngIf="showList">
