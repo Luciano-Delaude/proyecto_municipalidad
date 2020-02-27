@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
       Generación de factura
     </ion-title>
@@ -18,19 +18,19 @@
     <ion-col>
       <ion-item>
         <ion-label position="floating">Ingrese número de tarjeta</ion-label>
-        <ion-input type="number" clearInput [(ngModel)]="tarea.nTarjeta"></ion-input>
+        <ion-input type="tel" clearInput [(ngModel)]="tarea.nTarjeta"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ingrese número de proveedor</ion-label>
-        <ion-input type="number" clearInput [(ngModel)]="tarea.idProveedor"></ion-input>
+        <ion-input type="tel" clearInput [(ngModel)]="tarea.idProveedor"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ingrese el número de la factura</ion-label>
-        <ion-input type="number" clearInput [(ngModel)]="tarea.nTransaccion"></ion-input>
+        <ion-input type="tel" clearInput [(ngModel)]="tarea.nTransaccion"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ingrese el monto</ion-label>
-        <ion-input type="number" clearInput [(ngModel)]="tarea.monto"></ion-input>
+        <ion-input type="tel" clearInput [(ngModel)]="tarea.monto"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label position="floating">Ingrese el PIN de la tarjeta</ion-label>
@@ -40,11 +40,9 @@
   </ion-row>
   <ion-row class="ion-align-items-center">
     <ion-col>
-      <ion-button (click)="generarTransaccion()">Continuar</ion-button>
+      <ion-button (click)="alertConfirmar()">Continuar</ion-button>
     </ion-col>
     <!-- disable button once pressed to avoid double clicking -->
   </ion-row>
-  <ion-list *ngIf="showSuccess">
-  </ion-list>
 </ion-grid>
 </ion-content>
