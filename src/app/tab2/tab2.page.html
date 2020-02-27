@@ -31,8 +31,9 @@
        Si son demasiados que puedas pasar de pagina o algo?? -->
   <ion-list *ngIf="showList">
     <ion-item *ngFor="let tran of transacciones" button (click)="transaccionDetails(tran)">
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
       <ion-label> {{ tran.fecha }} </ion-label>
-      <ion-label> {{ tran.monto }} </ion-label>
+      <ion-text slot="end" color="success"> {{ tran.monto }} </ion-text>
     </ion-item>
   </ion-list>
 </ion-grid>
